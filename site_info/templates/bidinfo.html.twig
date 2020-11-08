@@ -1,0 +1,1049 @@
+<head>
+ <link rel="stylesheet" href="/flex/custom-theme/css/custom.css" media="print" />
+ 
+ <style>
+     body {
+  -webkit-print-color-adjust: exact !important;
+}
+  .bid-res-assign-main {-webkit-print-color-adjust:exact !important;}
+  .b-res-bgk1,.ser-bid-list li,.expertise-table-section table .ser-bid-list li{-webkit-print-color-adjust:exact !important;}
+  @media print { 
+      body,html{size:letter;}
+  .b-res-bgk1,.ser-bid-list li,.expertise-table-section table .ser-bid-list li{-webkit-print-color-adjust:exact !important;}
+  }
+     
+@page {
+  size: A4;
+  margin: 0;
+}
+ </style>
+</head>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9" id="ajaxCont">
+                <div class="cssloader" style="display:none;"></div>
+                <div class="row">
+                    <div class="bid-res-assign-main">
+                        <div class="col-sm-12">
+                            <div class="bid-p-code-details b-btm-line">
+                                <h4>{{ data.jobInfo['job_post_id'] }}</h4>
+                                <p>{{ data.jobInfo['summary'] }}</p>
+                              
+                                <div class="das-bid-ser-req">
+                                    {% if data.jobInfo['service_category_id'] == '3' %} {# If Staffing #}
+                                        <div class="row">
+                                            <div class="col-sm-7 col-xs-12">
+                                                <ul class="ser-bid-list">
+                                                    {% for key, value in data.services %}
+                                                        <li>{{ value.name }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-5 col-xs-12">
+                                                <ul class="const-sub-icons">
+                                                    <li><a href="javascript:;"><i class="fa fa-users" aria-hidden="true"></i>Number of positions<span class="const-sub-icons-count">{{ data.jobInfo['no_of_consultant']|default('0') }}</span></a></li>
+                                                    <li><a href="javascript:;"><i class="fa fa-paper-plane" aria-hidden="true"></i>Max submittals<span class="const-sub-icons-count">{{ data.jobInfo['max_submission']|default('0') }}</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                    <ul class="ser-bid-list">
+                                        {% for key, value in data.services %}
+                                        <li>{{ value.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="das-bid-res-assign-details b-btm-line">
+                                <div class="row">
+                                    <div class="col-sm-5 col-xs-12">
+                                        <ul class="bid-res-stage-list">
+                                            <li><a href="javascript:;">{{ data.category_name }}</a></li>
+                                            {% if data.bid_type %} <li><a href="javascript:;">{{ data.bid_type }}</a></li>{% endif %}
+                                        </ul>
+                                        <span>Posted {{ data.posted_on }}</span>
+                                    </div>
+                                    <div class="col-sm-7 col-xs-12 noprint">
+                                        <div class="bid-res-assign-icon">
+                                            <ul>
+                                                {% if data.jobInfo['is_remote'] == '1' %}<li class="b-ass-icon active b-ass1" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Remote access provided for the purpose of this Assignment"></li>{% endif %}
+                                                {% if data.jobInfo['interview_required'] == '1' %}<li class="b-ass-icon  b-ass2" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Interview  required for the purpose of this Assignment"></li>{% endif %}
+                                                {% if data.jobInfo['workstation'] == '1' %}<li class="b-ass-icon active b-ass3" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Work Infrastructure provided for the purpose of this Assignment"></li>{% endif %}
+                                                {% if data.jobInfo['network_access'] == '1' %}<li class="b-ass-icon active b-ass4" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Network access provided for the purpose of this Assignment"></li>{% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                        <div class="col-sm-12">
+                            <div class="quesion-div" style="display:none;">
+                                {% if data.jobInfo['network_access'] == '1' %}
+                    <h5>May this work be done remotely 100%?</h5>
+                    <p>Yes</p>{% endif %}
+                    {% if data.jobInfo['interview_required'] == '1' %}<h5>Is an in-person interview required?</h5>
+                    <p>Yes</p>{% endif %}
+                    {% if data.jobInfo['workstation'] == '1' %} <h5>Will you provide Work infrastructure (such as a workstation, computer etc.)</h5>
+                    <p>Yes</p>{% endif %}
+                  {% if data.jobInfo['is_remote'] == '1' %}  <h5>Will your provide access to your network for the purpose of this assignment?</h5>
+                    <p>Yes</p> {% endif %}
+                  </div>
+                    </div>
+                           <div class="clearfix"> </div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="bid-res-ass-budjet-target">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="bid-res-budjet-detail b-res-bgk1">
+                                                <div class="col-sm-3 col-xs-3">
+                                                    <div class="row">
+                                                        <img src="{{ data.module_path }}/images/time-icon.png" class="img-responsive" alt="icon" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-xs-9">
+                                                    <div class="row">
+                                                        <div class="bid-res-time-sec">
+                                                            <h4>Time and Material</h4>
+                                                            <p><span class="budjet-cost">${{ data.jobInfo['budget'] }}</span>{% if data.jobInfo['is_per_hour'] == '1' %}per hour{% endif %}</p>
+                                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor sit amet"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="bid-res-budjet-detail b-res-bgk2">
+                                                <div class="col-sm-3 col-xs-3">
+                                                    <div class="row">
+                                                        <img src="{{ data.module_path }}/images/week-icon.png" class="img-responsive" alt="icon" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-xs-9">
+                                                    <div class="row">
+                                                        <div class="bid-res-time-sec">
+                                                            <h4>Timesheet frequency </h4>
+                                                            <p><span class="">{{ data.jobInfo['time_sheet_frequency'] }}</span></p>
+                                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor sit amet"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="bid-res-budjet-detail b-res-bgk1">
+                                                <div class="col-sm-3 col-xs-3">
+                                                    <div class="row">
+                                                        <img src="{{ data.module_path }}/images/target-icon.png" class="img-responsive" alt="icon" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-xs-9">
+                                                    <div class="row">
+                                                        <div class="bid-res-time-sec">
+                                                            <h4>Target completion Date</h4>
+                                                            <p><span class="">{{ data.jobInfo['completion_date']|date('d, M Y') }}</span>({{ data.completion_days }})</p>
+                                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor sit amet"><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if data.jobInfo['service_category_id'] == '3' %} {# If Staffing #}
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="bid-res-ass-budjet-target">
+                                    <div class="b-r-box b-res-bgk1">
+                                        <div class="bid-res-time-sec">
+                                            <h4>Type of engagement</h4>
+                                            <span>
+                                                {% if data.jobInfo['engagement_type'] == '0' %}
+                                                    <a href="javascript:;">
+                                                        <img src="{{ data.module_path }}/images/shorttime.png" class="img-responsive">
+                                                        <p>Short-Term</p>
+                                                    </a>
+                                                {% elseif data.jobInfo['engagement_type'] == '1' %}
+                                                    <a href="javascript:;">
+                                                        <img src="{{ data.module_path }}/images/parttime.png" class="img-responsive">
+                                                        <p>Part-Time</p>
+                                                    </a>
+                                                {% elseif data.jobInfo['engagement_type'] == '2' %}
+                                                    <a href="javascript:;">
+                                                        <img src="{{ data.module_path }}/images/fulltime.png" class="img-responsive">
+                                                        <p>Full-Time</p>
+                                                    </a>
+                                                {% endif %}
+                                            </span>
+                                            <div class="bid-res-info">
+                                                <a href="javascript:;" rel="popover" data-popover-content="#myPopover" class="mypopover" data-trigger="hover" data-placement="top" data-original-title="" title=""><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="myPopover" class="hide">
+                                        <ul class="list-group">
+                                            <li class="list-group-item"><b>Full time</b> (40 or More hours per week)</li>
+                                            <li class="list-group-item"><b>Short-Term</b> (Less than 40 hrs totally)</li>
+                                            <li class="list-group-item"><b>Part-Time</b> (Less than 40 hours per week)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="b-r-box b-res-bgk2">
+                                        <div class="bid-res-time-sec">
+                                            <h4>Number of hours/week</h4>
+                                            <p><span>{{ data.jobInfo['no_of_hours'] }}</span></p>
+                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor" data-original-title="" title=""><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <div class="b-r-box b-res-bgk1 ">
+                                        <div class="bid-res-time-sec">
+                                            <h4>Duraion of engagement</h4>
+                                            <p><span>{{ data.jobInfo['engagement_duration'] }} {{ data.jobInfo['engagement_duration_type'] }}</span></p>
+                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor" data-original-title="" title=""><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <div class="b-r-box b-res-bgk2">
+                                        <div class="bid-res-time-sec">
+                                            <h4>Expected start date</h4>
+                                            <p><span>{{ data.jobInfo['expected_start_date']|date('m-d-Y') }}</span></p>
+                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor" data-original-title="" title=""><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <div class="b-r-box b-res-bgk1">
+                                        <div class="bid-res-time-sec">
+                                            <h4>Responses required by</h4>
+                                            <p><span>{{ data.jobInfo['responses_required']|date('m-d-Y') }}</span></p>
+                                            <div class="bid-res-info"><a href="javascript:;" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Lorem ipsum dolor" data-original-title="" title=""><i class="fa fa-info-circle" aria-hidden="true"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="clearfix"> </div>
+                        <div class="col-sm-12">
+                            <div class="expertise-table-section">
+                                <h4 class="head-inner-h4">Expertise Required</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            {% if data.skills %}
+                                            <tr>
+                                                <td>
+                                                    <div class="td-head-sec"><i class="fa fa-cogs" aria-hidden="true"></i>Skills</div>
+                                                </td>
+                                                <td>
+                                                    <ul class="ser-bid-list">
+                                                        {% for key, value in data.skills %}
+                                                            <li>{{ value.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% if data.tech_data %}
+                                            <tr>
+                                                <td>
+                                                    <div class="td-head-sec"><i class="fa fa-connectdevelop" aria-hidden="true"></i>Technology Domain</div>
+                                                </td>
+                                                <td>
+                                                    <ul class="ser-bid-list">
+                                                        {% for key, value in data.tech_data %}
+                                                            <li>{{ value.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% if data.buss_data %}
+                                            <tr>
+                                                <td>
+                                                    <div class="td-head-sec"><i class="fa fa-globe" aria-hidden="true"></i> Business Domain</div>
+                                                </td>
+                                                <td>
+                                                    <ul class="ser-bid-list">
+                                                        {% for key, value in data.buss_data %}
+                                                            <li>{{ value.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="bgk-ass-del-sec">
+                                    <div class="col-sm-12 no-pad">
+                                      
+                                            <div class="bgk-del-box bgk-del-box-inner1">
+
+                                                <div class="col-sm-1 col-xs-3 noprint">
+                                                    <div class="row">
+                                                        <img src="{{ data.module_path }}/images/background-icon.png" class="img-responsive" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-11 col-xs-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xs-12">
+                                                            <h4 class="media-heading">Background of Assignment</h4>
+                                                            {% if data.jobInfo['refer_bg_record'] == '1' %}
+                                                                <a href="javascript:;" class="b-a-attach-icon" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Refer attachment"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-sm-12 col-xs-12 backdeliverreadmore">
+                                                            <p>{{ data.jobInfo['background_assignment']|slice(0, 575) }} {% if data.jobInfo['background_assignment'] %} &nbsp;<a id="loadModalcont" href="javascript:;" data-cont="{{ data.jobInfo['background_assignment'] }}">Read More</a>{% endif %}</p>
+                                                        </div>
+                                                        <div class="col-sm-12 col-xs-12 backdeliverreadless" style="display:none;">
+                                                            <p>{{ data.jobInfo['background_assignment'] }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                    <div class="col-sm-12 no-pad">
+                                      
+                                            <div class="bgk-del-box">
+
+                                                <div class="col-sm-1 col-xs-3 noprint">
+                                                    <div class="row">
+                                                        <img src="{{ data.module_path }}/images/delivery-icon.png" class="img-responsive" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-11 col-xs-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xs-12">
+                                                            <h4 class="media-heading">Deliverables</h4>
+                                                            {% if data.jobInfo['refer_dl_record'] == '1' %}
+                                                                <a href="javascript:;" class="b-a-attach-icon" data-placement="top" data-toggle="popover" data-trigger="hover" data-content="Refer attachment"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-sm-12 col-xs-12 delivarablereadmore">
+                                                            <p>{{ data.jobInfo['deliverables']|slice(0, 575) }} {% if data.jobInfo['deliverables'] %} &nbsp;<a id="loadModalcont" href="javascript:;" data-cont="{{ data.jobInfo['deliverables'] }}">Read More</a>{% endif %}</p>
+                                                        </div>
+                                                         <div class="col-sm-12 col-xs-12 delivarablereadless" style="display:none;">
+                                                             <p>{{ data.jobInfo['deliverables'] }}</p>
+                                                         </div>
+                                                             
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if data.jobInfo['service_category_id'] == '2' %}
+                        <div class="clearfix"> </div>
+                        <div class="col-sm-12">
+                            <div class="row ">
+                                <div class="bgk-del-box">
+                                    <div class="col-sm-12">
+                                        <h4 class="media-heading">Magnitude / Complexity
+                                        </h4>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p>{{ data.jobInfo['magnitude_project']|slice(0, 575) }} {% if data.jobInfo['magnitude_project'] %} &nbsp;<a id="loadModalcont" href="javascript:;" data-cont="{{ data.jobInfo['magnitude_project'] }}">Read More</a>{% endif %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row ">
+                                <div class="bgk-del-box">
+                                    <div class="col-sm-12">
+                                        <h4 class="media-heading">Project Management Responsibility </h4>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p>{{ data.jobInfo['project_management']|slice(0, 575) }} {% if data.jobInfo['project_management'] %} &nbsp;<a id="loadModalcont" href="javascript:;" data-cont="{{ data.jobInfo['project_management'] }}">Read More</a>{% endif %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row ">
+                                <div class="bgk-del-box">
+                                    <div class="col-sm-12">
+                                        <h4 class="media-heading">Work review schedule and frequency </h4>
+
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p>{{ data.jobInfo['work_review']|slice(0, 575) }} {% if data.jobInfo['work_review'] %} &nbsp;<a id="loadModalcont" href="javascript:;" data-cont="{{ data.jobInfo['work_review'] }}">Read More</a>{% endif %}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="clearfix"></div>
+                        {% if data.segments %}
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="bid-res-more-info">
+
+                                    <h4><span><i class="fa fa-info-circle" aria-hidden="true"></i></span>More Information</h4>
+                                    <div class="panel-group moreinfo" id="accordion">
+                                        {% for key, value in data.segments %}
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <a {% if key != '0' %} class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse{{ key }}">
+                                                {{ value.title }}
+                                                </a>
+                                            </div>
+                                            <div id="collapse{{ key }}" class="panel-collapse collapse {% if key == '0' %} in {% endif %}">
+                                                <div class="panel-body">
+                                                    <p>{{ value.description }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <div class="content" style="display:none;">
+                                        {% for key, value in data.segments %}
+                    <h5 class="accordian-bg">{{ value.title }}</h5>
+                    <p>{{ value.description }}</p>
+                     {% endfor %}
+                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if data.attachments %}
+                        <div class="col-sm-12 attachments">
+                            <div class="b-res-attach-sec">
+                                <h4>Attachments</h4>
+                                <ul class="attch-view-download">
+                                    {% for key, value in data.attachments %}
+                                    <li>{{ value.filename }}
+                                        <span class="view-down-icons">
+                                            <a href="javascript:;" id="previewMedia" data-mdurl="{{ file_url(value.upload_folder) }}/{{ value.filename }}" data-ext="{{ value.filename|split('.')|last }}">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="{{ file_url(value.upload_folder) }}/{{ value.filename }}" download>
+                                                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-3">
+                <div class="das-bid-res-assign">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4 col-xs-4">
+                                <img src="{{ file_url(data.jobInfo['relative_file_path']) }}{{ data.jobInfo['image_name'] }}" class="img-responsive" alt="das-logo" />
+                            </div>
+                            <div class="col-sm-8 col-xs-8">
+                                <div class="row">
+                                    <div class="bid-assign-das-details">
+                                        <h4>{{ data.jobInfo['cli_name'] }}</h4>
+                                        <p>{{ data.jobInfo['name'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <ul class="das-bit-list">
+                                {% if data.jobInfo['is_name_private'] == '0' %}<li> <i class="fa fa-user" aria-hidden="true"></i> {{ data.jobInfo['project_manager_name'] }}</li>{% endif %}
+                                <li> <i class="fa fa-envelope" aria-hidden="true"></i> {{ data.jobInfo['init'] }}</li>
+                                {% if data.jobInfo['is_phone_private'] == '0' %}<li> <i class="fa fa-phone" aria-hidden="true"></i> {{ data.jobInfo['phone'] }}</li>{% endif %}
+                            </ul>
+                        </div>
+                        <div class="col-sm-12">
+                            {% set assigned = '1' %}
+                            {% if data.currentUserRole == 'partner' and data.canAssignbid %}
+                                {% set assigned = '0' %}
+                                <a href="javascript:;" id="assignBid" class="das-bid-sub-btn active btn-lightorg" data-jobid="{{ data.jobInfo['id'] }}">Assign Bid</a>
+                            {% endif %}
+                            {% if data.canAcceptbid %}
+                            <a href="javascript:;" id="submitProp" class="das-bid-sub-btn active" data-jobid="{{ data.jobInfo['id'] }}">
+                                {% if data.currentUserRole == 'consultant' %}
+                                    {% if data.jobInfo['service_category_id'] == '3' %}
+                                        Submit Candidate
+                                    {% else %}
+                                        Submit a Proposal
+                                    {% endif %}
+                                {% else %} {# If Partner #}
+                                    Accept Bid
+                                {% endif %}
+                            </a>
+                            {% endif %}
+                            <a href="#affr_msg_modal" data-toggle="modal" class="das-bid-sub-btn affr_msg" affr_id="{{data.jobInfo['id']}}" bid_id="{{data.bid_id}}">Send/Receive Message</a>
+                        </div>
+                        {% if data.bid_msg_status == 1 %}
+                        <div class="col-md-12 bid_message">
+                             <span class="pulse-button  remain-view-list-btn  msg-send-rec-info">New Message</span>
+                        </div>
+                        {% endif %}
+                        <div class="col-sm-12 no-pad">
+                            <div class="bid_like_share  das-bid-icon">
+                                 {% if data.jobInfo['job_save'] == '1' %}
+                                <a href="javascript:;" class="job_save_sts" value="{{data.jobInfo['job_save']}}" job_id="{{data.jobInfo['id']}}"> <i class="fa fa-heart red" id="heart" aria-hidden="true" title="wishlist"></i></a>
+                                {% else %}
+                               <a href="javascript:;" class="job_save_sts" value="{{data.jobInfo['job_save']}}" job_id="{{data.jobInfo['id']}}"> <i class="fa fa-heart " id="heart" aria-hidden="true" title="wishlist"></i></a>
+                                {% endif %}
+                                <a href="#sharemodal" data-toggle="modal" class="share-count"> <i class="fa fa-share-alt" aria-hidden="true" title="Share"></i></a>
+                                <a href="#" class="print"> <i class="glyphicon glyphicon-print" aria-hidden="true" title="Print"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal info content -->
+<div id="infopopmodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="modalTitle">Time and Material</h4>
+            </div>
+            <div class="modal-body"><p id="modalCont"></p></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal img view -->
+<div id="imgview" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close m-close" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <div class="modal-body no-pad">
+                <img id="imgEl" src="{{ data.module_path }}/images/talentban.jpg" class="img-responsive" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal video view -->
+<div id="videomodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close m-close" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <div class="modal-body">
+                <video id="vidEl" controls autoplay style="width: 100%;" src="">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- Modal audio view -->
+<div id="audiomodal" class="modal fade" role="dialog">
+    <div class="modal-dialog ">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <button type="button" class="close m-close" data-dismiss="modal"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+            <div class="modal-body">
+                <audio id="adEl" src="" controls autoplay style="width: 100%;">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recording Modal -->
+<div class="modal fade audiovideo" id="recordingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="rc-panel panel-a">
+                    <div class="rc-item">
+                        <button id="adoBtn" onclick="stopStream();initRecorder('audio');" class="btn btn-default" title="Record Audio">
+                            <i class="fa fa-microphone"></i>
+                        </button>
+                        <p>Record Audio</p>
+                    </div>
+                    <div class="rc-item">
+                        <button id="vdoBtn" onclick="stopStream();initRecorder('video');" class="btn btn-default" title="Record Video">
+                            <i class="fa fa-video-camera"></i>
+                        </button>
+                         <p>Record Video</p>
+                    </div>
+                </div>
+                <div class="rc-panel panel-b">                          
+                    <span id="_respImg" class="rc-loader"></span>
+                    <div class="text-center _respText"></div>
+                    <div id="countdown"></div>
+                </div>
+                <div class="rc-panel panel-c">
+                    <div class="rc-audio-img"></div>
+                    <audio class="rc-audio" controls autoplay></audio>
+                    <span class="onrc"></span>
+                    <video class="rc-video" controls autoplay></video>
+                    <div class="rc-control">
+                        <button class="btn btn-default pause" id="pauseRes" onclick="onPauseResumeClicked();" title="Pause Record" disabled><i class="fa fa-pause"></i></button>
+                        <button class="btn btn-default stop" id="stop" onclick="onBtnStopClicked();" title="Stop Record and Save" disabled><i class="fa fa-stop"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- share popup modal -->
+<div class="modal fade" id="sharemodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="share-modal-section">
+                    <h4><i class="fa fa-share-alt" aria-hidden="true"></i> Share</h4>
+
+                    <div class="share-profile-search">
+                        <div class="col-sm-10">
+                            <div class="input-field post-search-b-icon">
+                                <select name="Roles"  id="Roles" class="form-control Roles profile_edu_required specificusers">
+                                   <option selected="selected" value=""></option>                                      
+                                        {% if data.get_all_users %}
+                                        {% for key, value in data.get_all_users %}
+                                                <option value="{{ value.uid }}">{{ value.name }}</option>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    </select>
+                            </div>
+
+                        </div>
+                    </div>
+ <div class="berror"></div>
+                    <div class="share-pro-detail">
+                            <ul class="share-p-list" id="list_users">
+                               
+                                   <div id="user_details">
+                    </div>  
+                               
+                            </ul>
+                        </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+                    <div class="pull-left">
+                        <button type="button" class="btn btn-primary pop-submit-btn requestnow jb_shr_cfm" job_encrypt_id="{{data.job_encrypt_id}}">Share</button>
+                        <button type="button" class="btn btn-secondary pop-cancel-btn" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade in" id="affr_msg_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <form id="affr_msg_form" method="POST" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <button type="button" class="close chat_close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Message</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="affir-name-role-details affir-popup-border">
+                            <div class="row user_msg_head">
+                                <div class="col-sm-6">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a herf="#"><img src="" class="media-object img-circle"></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <a href="#">Company name</a>
+                                            <p>System Engineer,Las Vegas, United States</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12 no-pad"><p>Role</p></div>
+                                    <div class="col-sm-6 no-pad"><h4>Web Designer</h4></div>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <hr>
+                                <div class="col-sm-12">
+                                    <div class="affirmed-chat-section dyn_chat_section" id="dyn_chat_section">
+                                        <div class="affir-receive-msg">
+                                            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non massa blandit, placerat nibh in, dictum metus. Integer massa nunc, blandit in erat a, molestie cursus neque.</span>
+                                            <p>3 min ago</p>
+                                        </div>
+                                        <div class="affir-reply-msg">
+                                            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non massa blandit, placerat nibh in, dictum metus. Integer massa nunc, blandit in erat a, molestie cursus neque.</span>
+                                            <p>4 min ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <textarea rows="2" name="affr_msg_txt" id="affr_msg_txt" maxlength="500" class="form-control msg-type-box affr_msg_required" placeholder="Message..."></textarea>
+                                    <span class="affr_msg_err required_star"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="dyn_affr_id">
+                    <button type="button" class="btn btn-secondary pop-cancel-btn chat_close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary pop-save-btn" id="affr_msg_submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Player Modal -->
+<div class="modal fade" id="playerModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Media Player</h4>
+            </div>
+            <div id="playerContent" class="modal-body"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function() {
+  const heart = document.getElementById('heart');
+  heart.addEventListener('click', function() {
+    heart.classList.toggle('red');
+  });
+  })();
+    </script>
+<script type="text/javascript">
+    
+(function ($) {
+  
+$(document).on('click', '.chat_close', function () {
+                $('#affr_msg_txt').val('');
+                $('.affr_msg_err').text('');
+                $('#affr_msg_modal').removeClass('is_chat_active');
+            });
+            
+            $(document).on('click', '.affr_msg', function () {
+                $('.bid_message').hide();
+                $('.user_msg_head').html('');
+                $('.dyn_chat_section').html('');
+                $('#affr_msg_modal').addClass('is_chat_active');
+                var affr_id = $(this).attr('affr_id');
+                $('#affr_msg_form').find('#dyn_affr_id').val('').val(affr_id);
+                $('#affr_msg_form').find('#dyn_affr_id').val('').val(affr_id);
+                 var bid_id = $(this).attr('bid_id');
+
+                $.ajax({
+
+                    url: "/flex/bidinfo/affir_msg_get_part",
+                    method: 'POST',
+                    data: {job_id: affr_id,bid_id:bid_id},
+                    beforeSend: function () {
+                        $('#affr_msg_form').hide();
+                    },
+                    success: function (result) {
+                        $('#affr_msg_form').show();
+                        var result = JSON.parse(result);
+                        $('.user_msg_head').html('').html(result['receiver_head']);
+                        $('.dyn_chat_section').html('').html(result['affir_msg']);
+
+                    },
+                    complete: function () {
+                        get_msg();
+                    }
+                });
+
+            });
+
+            $(document).on('click', '#affr_msg_submit', function () {
+                var dyn_affr_id = $('#dyn_affr_id').val();
+                var affr_msg_txt = $('#affr_msg_txt').val();
+                var bid_id = $('.affr_msg').attr('bid_id');
+
+                if (affr_msg_txt == '' || affr_msg_txt == null) {
+                    $('.affr_msg_err').text('Message is required');
+                } else {
+                    $('.affr_msg_err').text('');
+                    sendMessage(affr_msg_txt, dyn_affr_id,bid_id);
+                }
+            });
+
+            $('#affr_msg_txt').val('');
+            function sendMessage(affr_msg_txt, dyn_affr_id,bid_id) {
+                if (affr_msg_txt === '') {
+                    return false;
+                }
+                $.post("/flex/bidinfo/affir_msg_to_part", {job_id: dyn_affr_id, affr_msg_txt: affr_msg_txt,bid_id: bid_id}).done(function (response) {
+                    $('#affr_msg_txt').val('');
+                });
+                return false;
+            }
+
+            function get_msg() {
+
+                setInterval(function () {
+
+                    if ($('#affr_msg_modal').hasClass('is_chat_active')) {
+                        var affr_id = $('#affr_msg_form').find('#dyn_affr_id').val();
+                        var last_msg_id = $('#affr_msg_form').find('.last_msg_id').val();
+                         var bid_id = $('.affr_msg').attr('bid_id');
+
+                        $.ajax({
+
+                            url: "/flex/bidinfo/affir_load_msg_get_part",
+                            method: 'POST',
+                            data: {job_id: affr_id, last_msg_id: last_msg_id,bid_id:bid_id},
+                            success: function (result) {
+                                $('#affr_msg_form').find('.last_msg_id').remove();
+                                //$('.dyn_chat_section').append(result);
+                                //$('.dyn_chat_section').html('').html(result);
+                                var result = JSON.parse(result);
+                                $('.dyn_chat_section').html('').html(result['affir_msg']);
+                            }
+                        });
+
+                    }
+
+                }, 2000);
+            }
+
+      /*     get_msg_count();
+            function get_msg_count() {
+                setInterval(function () {
+
+                    if ($('#affr_msg_modal:not(.is_chat_active)')) {
+                        var affr_ids = [];
+                        $('.affr_msg_count').each(function (i) {
+                            affr_ids.push($(this).attr("affr_id"));
+                        });
+                        //alert(affr_ids);
+                        $.ajax({
+
+                            url: "/flex/bid/response_detail/get_msg_count_by_user",
+                            method: 'POST',
+                            data: {job_id: affr_ids},
+                            success: function (result) {
+
+                                var result = JSON.parse(result);
+                                $('.affr_msg_count').each(function (i) {
+                                    var affr_id = $(this).attr("affr_id");
+                                    if (result[i] != null && result[i]['affr_id'] == affr_id) {
+                                        $(this).text('').text(result[i]['msg_count']);
+                                    }
+
+                                });
+                                $('.affr_msg_count').text('').text(result[0]['msg_count']);
+
+
+                            }
+                        });
+
+                    }
+                }, 2000);
+            }*/
+         function chosen_init() {
+         
+                    $('.chosen-select').chosen({width: '100%', height: '100%'});
+                }
+                chosen_init();
+        
+          $('.specificusers').data('placeholder','Select Users');
+$('.specificusers').select2( {dropdownParent: $("#sharemodal")});
+
+
+
+
+
+ $('body').on('change', '.specificusers', function (event) {
+    var user_id =$(this).val();
+    
+   
+   if(user_id != null )
+   {
+       
+    var list_id =[];
+     $("#list_users").find("li").each(function(){ list_id.push(this.id); });
+         //alert(list_id);
+         
+      if(jQuery.inArray(user_id, list_id) !== -1)
+      {
+          $('.berror').text('Users already selected').slideDown("500");
+      }
+      else
+      {
+          $('.berror').text('').slideUp("500");
+            $.ajax({
+            url: drupalSettings.path.baseUrl + 'bidinfo/get_specific_align_connection_users',
+            method: 'POST',
+            data: {'user_id':user_id},
+            success: function (result) {
+         // $( "#user_details" ).html('');
+      $( "#user_details" ).prepend(result);
+            }
+        });
+      }
+   }
+    
+    
+    
+    
+    //alert(user_id);
+     
+       
+ });
+ 
+ 
+ 
+
+ 
+ $('body').on("click", '.user_close', function () {
+
+     $('.berror').text('').slideUp("500");
+    
+     var user_id=$(this).attr('value');
+      
+      $('#'+user_id).remove();
+      
+
+     $("#Roles").val('Select Users').trigger('change')
+
+     
+ });
+ 
+  $('body').on("click", '.job_save_sts', function () {
+    var job_sts=0;
+    var job_sts_value=$(this).attr('value');
+    var job_id = $(this).attr('job_id');
+    
+    
+    
+    if(job_sts_value == 1)
+    {
+        job_sts=0;
+    }
+    else
+    {
+        job_sts=1;
+    }
+   
+    
+         $.ajax({
+            url: drupalSettings.path.baseUrl + 'bidinfo/save_job_post',
+            method: 'POST',
+            data: {'jb_id':job_id ,'job_save_sts':job_sts},
+            success: function (result) {
+                if(result =="Saved")
+                {
+                          Swal.fire("Job save", "Job Saved Successfully!", "success")
+            .then((result) => {
+  location.reload();
+     
+});
+                }
+                else
+                {
+                     Swal.fire("Job Remove", "Job Removed Successfully!", "success")
+            .then((result) => {
+  location.reload();
+     
+});
+                }
+      
+     
+            }
+        });
+      
+     
+     
+ });
+ 
+  $('body').on("click", '.jb_shr_cfm', function () {
+     
+      $('.requestnow').prop('disabled', true);
+        $('#spinloader').addClass("fa fa-spinner fa-spin");
+      var jb_id=$(this).attr('job_encrypt_id');
+     
+      
+      
+     
+     
+      
+        var list_id =[];
+     $("#list_users").find("li").each(function(){ list_id.push(this.id); });
+     if(list_id =="")
+     {
+         $('.berror').text('Please select atleast one user').slideDown("500");
+         $('#spinloader').removeClass("fa fa-spinner fa-spin");
+        $('.requestnow').prop('disabled', false);
+     }
+     else
+     {
+         $('.berror').text('').slideUp("500");
+             $.ajax({
+            url: drupalSettings.path.baseUrl + 'bidinfo/share_job_post_users',
+            method: 'POST',
+            data: {'jb_id':jb_id,'list_id':list_id},
+            success: function (result) {
+            Swal.fire("Job posted", "Job Shared Successfully!", "success")
+            .then((result) => {
+  location.reload();
+     
+});
+     
+            }
+        });
+           
+     }
+   
+     
+ });
+ 
+ 
+
+})(jQuery);
+
+
+</script>

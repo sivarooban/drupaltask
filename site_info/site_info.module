@@ -1,0 +1,62 @@
+<?php
+use Drupal\Core\Routing\RouteMatchInterface;
+/**
+ * @file
+ * Contains countrys module
+ */
+/**
+ * Implements hook_theme()
+ * @return mixed
+ */
+
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+function site_info_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+	//echo $form_id;
+	//die();
+	if($form_id === 'system_site_information_settings'){
+		$form['actions']['submit']['#value'] = t('Update Configurations');
+		//$form['actions']['submit']['#submit'] = 'profiles_user_register_form_alter_submit';
+	}
+	
+	if ($form_id === 'system_site_information_settings'){
+		 $slogan = \Drupal::config('system.site')->get('api_key');
+		 if($slogan == "" || $slogan == null){
+			 $slogan = "No API Key yet";
+		 }
+		//die();
+		$form['site_information']['api_key'] = array(
+			'#type' => 'tel',
+			'#title' => 'Api Key',
+			"#id"=>"api_key1",
+			"#name"=>"api_key",
+			'#attributes' => array('class' => array('form-control input-lg')),
+			'#required' => False,
+			'#placeholder' => 'Api Key',
+			'#default_value' => $slogan,
+			);
+		//$form['title']['#field_prefix'] = '*';
+		foreach (array_keys($form['actions']) as $action) {
+			if ($action != 'preview' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+			  $form['actions'][$action]['#submit'][] = 'site_info_form_submit';
+			}
+		 }
+	}
+}
+
+function site_info_form_submit(array $form, \Drupal\Core\Form\FormStateInterface $form_state){	
+	//$config = \Drupal::configFactory()->getEditable('api_key.configuration');
+ // echo   $new_modulename = $form_state->getValue(['api_key']);
+     $new_modulename = $form_state->getValue(['api_key']);
+	/*$slogan = \Drupal::config('system.site')->get('slogan');
+    $config->set('api_key', $new_modulename);
+    $config->save();*/
+	//$config = \Drupal::config('system');
+	$config = \Drupal::configFactory()->getEditable('system.site');
+    $config->set('api_key', $new_modulename);
+    $config->save();
+	drupal_set_message("Successfully Set Site API Key");
+}

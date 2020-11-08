@@ -1,0 +1,9 @@
+site_info.site_api:
+  path: '/api/site_api'
+  defaults:
+    _controller: '\Drupal\site_info\Controller\site_infoController::site_api'
+    _title: 'JSON api'
+    methods:  [POST]
+  requirements:
+    _access: 'TRUE'
+    
